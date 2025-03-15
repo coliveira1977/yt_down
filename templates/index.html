@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Baixar Vídeo do YouTube</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Baixar e Converter Vídeo para MP4</h1>
+    <input type="text" id="video_url" placeholder="Digite a URL do vídeo">
+    <button onclick="baixarVideo()">Baixar</button>
+    <div id="status"></div>
+    <div id="progress"></div>
+    <div id="log"></div>
+    <br>
+    <button onclick="abrirPasta()">Abrir Pasta</button>
+    
+    <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script>
+        var socket = io.connect('http://' + document.domain + ':' + location.port);
+
+        // Função para iniciar o download
+        function baixarVideo() {
+            var url = document.getElementById('video_url').value;
+            fetch('/baixar', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ url: url })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    document.getElementById('status').innerText = 'Download iniciado!';
+                } else {
+                    document.getElementById('status').innerText = 'Erro: ' + data.error;
+                }
+            });
+        }
+
+        // Função para abrir a pasta onde o arquivo foi salvo
+        function abrirPasta() {
+            fetch('/abrir_pasta', {
+                method: 'POST',
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert(data.message);
+                }
+            });
+        }
+
+        // Atualiza o progresso de download em tempo real
+        socket.on('download_progress', function(data) {
+            var progress = document.getElementById('progress');
+            progress.innerHTML = `Progresso: ${data.percent.toFixed(2)}% - Velocidade: ${data.speed.toFixed(2)} KB/s - ETA: ${data.eta} segundos`;
+        });
+
+        // Exibe as mensagens de log do yt-dlp
+        socket.on('download_log', function(data) {
+            var log = document.getElementById('log');
+            log.innerHTML += `<br>${data.message}`;
+        });
+    </script>
+</body>
+</html>

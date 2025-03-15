@@ -1,0 +1,13 @@
+# Este arquivo lista as dependências necessárias para o projeto.
+# Além das dependências abaixo, o sistema deve ter o ffmpeg instalado 
+# para a conversão de vídeos, como é exigido pelo yt-dlp.
+
+Flask==2.3.2
+Flask-SocketIO==5.3.2
+yt-dlp==2025.3.14
+
+# Lembre-se: o ffmpeg precisa ser instalado separadamente no sistema.
+# Para instalar o ffmpeg, siga as instruções adequadas ao seu sistema operacional:
+# - Para Windows: Baixe de https://ffmpeg.org/download.html
+# - Para MacOS: use 'brew install ffmpeg'
+# - Para Linux (Ubuntu/Debian): use 'sudo apt install ffmpeg'
