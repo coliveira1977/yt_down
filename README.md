@@ -2,7 +2,7 @@ yt_down
 yt_down é uma aplicação em Python para baixar vídeos do YouTube de maneira simples. Com essa ferramenta, você pode baixar vídeos diretamente para o seu computador em diversos formatos e resoluções.
 
 Funcionalidades
-Baixar vídeos do YouTube em múltiplos formatos (MP4, WebM, etc.)
+Baixar vídeos do YouTube, aguarde a conversão para o formato MPEG-4
 Escolher qualidade e resolução do vídeo
 Interface simples e fácil de usar
 Instalação
